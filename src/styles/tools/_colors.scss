@@ -1,0 +1,9 @@
+$colors: (
+  dark: #000000,
+  light: #FFFFFF,
+  main: #E71A27,
+);
+
+$dark: map-get($colors, dark);
+$light: map-get($colors, light);
+$main: map-get($colors, main);

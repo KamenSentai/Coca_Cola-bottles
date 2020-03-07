@@ -6,9 +6,17 @@ html,
 body {
   width: 100%;
   height: 100%;
+  background-color: $dark;
 }
 
 body {
+  color: $light;
   font-weight: normal;
   font-size: 1.6rem;
+  font-family: $font;
+}
+
+*::selection {
+  color: $light;
+  background-color: $main;
 }

@@ -1,0 +1,18 @@
+$path: "/fonts";
+$font: "Monument Extended", sans-serif;
+
+@font-face {
+  font-weight: normal;
+  font-family: "Monument Extended";
+  src: url("#{$path}/MonumentExtended-Regular.woff") format("woff"),
+    url("#{$path}/MonumentExtended-Regular.woff2") format("woff2")
+  ;
+}
+
+@font-face {
+  font-weight: bold;
+  font-family: "Monument Extended";
+  src: url("#{$path}/MonumentExtended-Ultrabold.woff") format("woff"),
+    url("#{$path}/MonumentExtended-Ultrabold.woff2") format("woff2")
+  ;
+}
