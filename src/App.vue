@@ -25,6 +25,8 @@ export default {
 .container {
   position: relative;
   z-index: 1;
+  display: grid;
+  align-items: center;
   width: 100%;
   height: 100%;
 }

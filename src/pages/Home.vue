@@ -37,18 +37,17 @@ export default {
 
 <style lang="scss" module>
 .container {
-  display: grid;
-  grid-row-gap: 8rem;
-  align-content: center;
-  justify-content: center;
+  grid-row-gap: 6rem;
   width: 100%;
   height: 100%;
   text-align: center;
+  @include centralizer(grid);
 }
 
 .title {
   font-weight: bold;
   font-size: 2.5rem;
+  line-height: 2;
   text-transform: uppercase;
 }
 
@@ -60,11 +59,9 @@ export default {
 }
 
 .option {
-  display: grid;
-  grid-row-gap: 8rem;
-  align-items: center;
-  justify-content: center;
+  grid-row-gap: 6rem;
   width: 22.5rem;
+  @include centralizer(grid);
 }
 
 .image {
@@ -74,20 +71,20 @@ export default {
 }
 
 .link {
+  $height: 6rem;
+
   position: relative;
   z-index: 1;
-  display: grid;
-  align-content: center;
-  justify-content: center;
   width: 100%;
-  height: 6rem;
+  height: $height;
   font-weight: bold;
   text-transform: uppercase;
-  border: .2rem solid $main;
-  border-radius: 3rem;
+  border: .2rem solid $red;
+  border-radius: $height / 2;
+  @include centralizer(grid);
 
   &::before {
-    background-color: $main;
+    background-color: $red;
     border-radius: inherit;
     opacity: 0;
     transition: opacity .25s ease-in-out;

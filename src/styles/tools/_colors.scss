@@ -1,9 +1,24 @@
 $colors: (
-  dark: #000000,
-  light: #FFFFFF,
-  main: #E71A27,
+  black: #000000,
+  grey: #8C8C8C,
+  white: #FFFFFF,
+  green: #95AE89,
+  red: #E71A27,
 );
 
-$dark: map-get($colors, dark);
-$light: map-get($colors, light);
-$main: map-get($colors, main);
+$black: map-get($colors, black);
+$grey: map-get($colors, grey);
+$white: map-get($colors, white);
+$green: map-get($colors, green);
+$red: map-get($colors, red);
+
+@each $name, $color in $colors {
+
+  .bg-#{$name} {
+    background-color: $color;
+  }
+
+  .text-#{$name} {
+    color: $color;
+  }
+}
