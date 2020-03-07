@@ -1,0 +1,12 @@
+// from ELEMENT-UI
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave,
+.fade-leave-active {
+  opacity: 0;
+  transition-duration: 0s;
+}
