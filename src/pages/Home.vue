@@ -61,8 +61,9 @@ export default {
 .wrapper {
   display: grid;
   grid-auto-flow: column;
+  grid-column-gap: 2rem;
   align-items: flex-end;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .option {
