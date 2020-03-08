@@ -1,6 +1,17 @@
 <template>
-  <div :class="$style.container">
-    <main :class="$style.wrapper">
+  <div
+    v-if="option"
+    :class="[
+      $style.container,
+      {
+        [$style.isModal]: isFinished
+      }
+    ]"
+  >
+    <main
+      v-if="!isFinished"
+      :class="$style.wrapper"
+    >
       <div :class="$style.tag">
         <span :class="$style.counter">{{ progression + 1 }}</span> / {{ total }}
       </div>
@@ -9,26 +20,49 @@
       </p>
       <ModuleSelection />
     </main>
+    <div
+      v-else
+      :class="$style.actions"
+    >
+      <div :class="$style.wrapper">
+        <ComponentLink
+          tag="span"
+          class="bg-red"
+        >
+          Buy $2.90
+        </ComponentLink>
+        <ComponentLink
+          tag="span"
+          class="bg-dark"
+        >
+          Share
+        </ComponentLink>
+      </div>
+    </div>
+    <aside :class="$style.aside">
+      <img
+        :src="option.image"
+        :alt="option.name"
+      >
+    </aside>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ModuleSelection from '@/modules/Selection'
+import { Link as ComponentLink } from '@/components/Link'
 
 export default {
   name: 'Funnel',
   components: {
     ModuleSelection,
+    ComponentLink,
   },
-  computed: mapGetters('funnel', ['progression', 'step', 'total']),
+  computed: mapGetters('funnel', ['isFinished', 'option', 'progression', 'step', 'total']),
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      next(
-        vm.$store.getters['funnel/options'].map(option => option.slug).includes(to.params.slug)
-          ? undefined
-          : { name: 'home' },
-      )
+      next(vm.option ? undefined : { name: 'home' })
     })
   },
   beforeRouteLeave(to, from, next) {
@@ -51,6 +85,23 @@ export default {
   padding: 0 10rem;
 }
 
+.isModal {
+  grid-column-gap: 2rem;
+  grid-template-columns: 1fr auto 1fr;
+
+  &::after {
+    content: "";
+  }
+
+  .wrapper {
+    max-width: 25rem;
+  }
+}
+
+.actions {
+  align-self: flex-end;
+}
+
 .wrapper {
   display: grid;
   grid-row-gap: 5rem;
@@ -70,5 +121,10 @@ export default {
   font-weight: bold;
   font-size: 2.5rem;
   line-height: 1.25;
+}
+
+.aside {
+  justify-self: flex-end;
+  font-size: 0;
 }
 </style>

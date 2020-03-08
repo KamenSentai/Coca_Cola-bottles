@@ -10,28 +10,39 @@
         :class="$style.option"
       >
         <img
-
           :class="$style.image"
           :src="option.image"
           :alt="option.name"
         >
-        <router-link
+        <ComponentLink
           :to="{ name: 'funnel', params: { slug: option.slug } }"
-          :class="$style.link"
+          class="bg-red"
         >
           {{ option.name }}
-        </router-link>
+        </ComponentLink>
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { Link as ComponentLink } from '@/components/Link'
 
 export default {
   name: 'Home',
+  components: {
+    ComponentLink,
+  },
   computed: mapGetters('funnel', ['options']),
+  beforeRouteLeave(to, from, next) {
+    this.choose(to.params.slug)
+    next()
+  },
+  beforeMount() {
+    this.choose(null)
+  },
+  methods: mapActions('funnel', ['choose']),
 }
 </script>
 
@@ -68,34 +79,5 @@ export default {
   justify-self: center;
   width: 50%;
   height: auto;
-}
-
-.link {
-  $height: 6rem;
-
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: $height;
-  font-weight: bold;
-  text-transform: uppercase;
-  border: .2rem solid $red;
-  border-radius: $height / 2;
-  @include centralizer(grid);
-
-  &::before {
-    background-color: $red;
-    border-radius: inherit;
-    opacity: 0;
-    transition: opacity .25s ease-in-out;
-    content: "";
-    @include overlay {
-      z-index: -1;
-    }
-  }
-
-  &:hover::before {
-    opacity: 1;
-  }
 }
 </style>

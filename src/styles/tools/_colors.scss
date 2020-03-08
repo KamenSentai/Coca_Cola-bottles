@@ -1,5 +1,6 @@
 $colors: (
   black: #000000,
+  dark: #202020,
   grey: #8C8C8C,
   white: #FFFFFF,
   green: #95AE89,
@@ -7,6 +8,7 @@ $colors: (
 );
 
 $black: map-get($colors, black);
+$dark: map-get($colors, dark);
 $grey: map-get($colors, grey);
 $white: map-get($colors, white);
 $green: map-get($colors, green);

@@ -2,8 +2,10 @@ import bottle from '@/assets/bottle.png'
 import can from '@/assets/can.png'
 
 export default {
+  isFinished: false,
   isFunnelling: false,
   gap: 5,
+  option: null,
   options: [
     { name: 'Bottle', slug: 'bottle', image: bottle },
     { name: 'Can', slug: 'can', image: can },
