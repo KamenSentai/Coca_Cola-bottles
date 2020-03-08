@@ -1,6 +1,6 @@
-import bottle from '@/assets/bottle.png'
-import can from '@/assets/can.png'
-import canSketch from '@/assets/can_sketch.png'
+import bottleShape from '@/assets/bottle_shape.png'
+import canImage from '@/assets/can_image.png'
+import canShape from '@/assets/can_shape.png'
 
 export default {
   isFinished: false,
@@ -10,15 +10,15 @@ export default {
     {
       name: 'Bottle',
       slug: 'bottle',
-      image: bottle,
-      sketch: null,
+      image: null,
+      shape: bottleShape,
       clip: [],
     },
     {
       name: 'Can',
       slug: 'can',
-      image: can,
-      sketch: canSketch,
+      image: canImage,
+      shape: canShape,
       clip: [
         '50% 0',
         '39% 0%',

@@ -1,12 +1,9 @@
 <template>
-  <div
-    :class="$style.container"
-    :style="style"
-  >
+  <div :class="$style.container">
     <img
       :class="$style.image"
-      :src="image.src"
-      :alt="image.alt"
+      :alt="alt"
+      :src="src"
     >
     <div
       ref="wrapper"
@@ -22,14 +19,18 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Sketch',
   props: {
-    image: {
-      type: Object,
+    alt: {
+      type: String,
+      required: true,
+    },
+    src: {
+      type: String,
       required: true,
     },
   },
   data() {
     return {
-      canvas: null,
+      image: null,
       size: {
         width: 0,
         height: 0,
@@ -37,12 +38,7 @@ export default {
       sketch: null,
     }
   },
-  computed: {
-    ...mapGetters('funnel', ['values']),
-    style() {
-      return { clipPath: `polygon(${this.image.clip.join(', ')})` }
-    },
-  },
+  computed: mapGetters('funnel', ['values']),
   watch: {
     values() {
 
@@ -54,19 +50,19 @@ export default {
       this.sketch = sketch
 
       sketch.preload = () => {
-        this.canvas = sketch.loadImage(this.image.src)
+        this.image = sketch.loadImage(this.src)
       }
 
       sketch.setup = () => {
         this.updateSize()
         sketch.createCanvas(this.size.width, this.size.height)
-        sketch.image(this.canvas, 0, 0, this.size.width, this.size.height)
+        sketch.image(this.image, 0, 0, this.size.width, this.size.height)
       }
 
       sketch.windowResized = () => {
         this.updateSize()
         sketch.resizeCanvas(this.size.width, this.size.height)
-        sketch.image(this.canvas, 0, 0, this.size.width, this.size.height)
+        sketch.image(this.image, 0, 0, this.size.width, this.size.height)
       }
     }, this.$refs.wrapper)
   },

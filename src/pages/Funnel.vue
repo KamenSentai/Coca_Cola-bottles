@@ -40,8 +40,9 @@
       </div>
     </div>
     <ModuleSketch
-      v-if="option.sketch"
-      :image="{ src: option.sketch, alt: option.name, clip: option.clip }"
+      v-if="option.image"
+      :alt="option.name"
+      :src="option.image"
     />
   </div>
 </template>

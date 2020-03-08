@@ -11,7 +11,7 @@
       >
         <img
           :class="$style.image"
-          :src="option.image"
+          :src="option.shape"
           :alt="option.name"
         >
         <ComponentLink
