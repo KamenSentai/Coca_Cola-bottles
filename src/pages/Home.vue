@@ -35,10 +35,6 @@ export default {
     ComponentLink,
   },
   computed: mapGetters('funnel', ['options']),
-  beforeRouteLeave(to, from, next) {
-    this.choose(to.params.slug)
-    next()
-  },
   beforeMount() {
     this.choose(null)
   },

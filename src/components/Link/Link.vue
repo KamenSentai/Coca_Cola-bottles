@@ -30,6 +30,7 @@ export default {
   height: $height;
   padding: 2rem;
   font-weight: bold;
+  text-align: center;
   text-transform: uppercase;
   border-radius: $height / 2;
   cursor: pointer;

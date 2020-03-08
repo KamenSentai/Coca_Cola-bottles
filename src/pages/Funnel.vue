@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="option"
+    v-if="!!option"
     :class="[
       $style.container,
       {
@@ -59,7 +59,16 @@ export default {
   computed: mapGetters('funnel', ['isFinished', 'option', 'progression', 'step', 'total']),
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      next(vm.option ? undefined : { name: 'home' })
+      const { slug } = to.params
+      const isValid = vm.$store.getters['funnel/options']
+        .map(option => option.slug)
+        .includes(slug)
+
+      if (isValid) {
+        vm.choose(slug)
+      }
+
+      next(isValid ? undefined : { name: 'home' })
     })
   },
   beforeRouteLeave(to, from, next) {
@@ -69,7 +78,7 @@ export default {
   mounted() {
     this.enter()
   },
-  methods: mapActions('funnel', ['enter', 'exit']),
+  methods: mapActions('funnel', ['choose', 'enter', 'exit']),
 }
 </script>
 
