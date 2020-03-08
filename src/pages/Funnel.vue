@@ -85,6 +85,7 @@ export default {
 <style lang="scss" module>
 .container {
   display: grid;
+  grid-column-gap: 4rem;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   justify-content: space-between;
@@ -124,6 +125,7 @@ export default {
 }
 
 .text {
+  min-height: calc(2em * 1.25);
   font-weight: bold;
   font-size: 2.5rem;
   line-height: 1.25;

@@ -21,7 +21,7 @@ export default {
       value: null,
     },
     {
-      text: 'You like to show off?',
+      text: 'You like to show off ?',
       value: null,
     },
     {
