@@ -2,23 +2,23 @@
   <div :class="$style.container">
     <div :class="$style.select">
       <div
-        v-for="value in gap"
-        :key="`value-${value}`"
+        v-for="(select, index) in selects"
+        :key="`select-${index}`"
         :class="[
           $style.button,
           {
-            [$style.isNegative]: value < middle,
-            [$style.isPositive]: value > middle,
+            [$style.isNegative]: select.isNegative,
+            [$style.isPositive]: select.isPositive,
           }
         ]"
-        :style="style(value)"
-        @click="update(value)"
+        :style="style(index + 1)"
+        @click="update(index + 1)"
       >
-        {{ value }}
+        {{ index + 1 }}
         <div :class="$style.icon">
           <ComponentIcon
             name="Check"
-            :color="isMiddle(value) ? 'black' : 'white'"
+            :color="select.isNegative || select.isPositive ? 'white' : 'black'"
             width="20px"
           />
         </div>
@@ -41,12 +41,9 @@ export default {
     ComponentIcon,
   },
   computed: {
-    ...mapGetters('funnel', ['gap']),
-    isMiddle() {
-      return value => value === this.middle
-    },
+    ...mapGetters('funnel', ['selects']),
     middle() {
-      return (this.gap + 1) / 2
+      return (this.selects.length + 1) / 2
     },
     style() {
       return (n) => {

@@ -5,7 +5,6 @@ import canSketch from '@/assets/can_sketch.png'
 export default {
   isFinished: false,
   isFunnelling: false,
-  gap: 5,
   option: null,
   options: [
     {
@@ -83,6 +82,13 @@ export default {
     },
   ],
   progression: 0,
+  selects: [
+    { isNegative: true },
+    { isNegative: true, isIntense: true },
+    { isIntense: true },
+    { isPositive: true, isIntense: true },
+    { isPositive: true },
+  ],
   steps: [
     {
       text: 'Do you manage to stay calm in the face of pressure ?',
