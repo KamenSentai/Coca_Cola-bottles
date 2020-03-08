@@ -9,6 +9,9 @@ export default {
     commit('exit')
   },
   update({ commit }, value) {
-    commit('update', { value })
+    commit('update', value)
+  },
+  view({ commit }, value = null) {
+    commit('view', value)
   },
 }

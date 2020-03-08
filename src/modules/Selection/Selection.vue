@@ -12,7 +12,9 @@
           }
         ]"
         :style="style(index + 1)"
-        @click="update(index + 1)"
+        @mouseenter="view(select)"
+        @mouseleave="view()"
+        @click="update(select)"
       >
         {{ index + 1 }}
         <div :class="$style.icon">
@@ -55,7 +57,7 @@ export default {
       }
     },
   },
-  methods: mapActions('funnel', ['update']),
+  methods: mapActions('funnel', ['update', 'view']),
 }
 </script>
 

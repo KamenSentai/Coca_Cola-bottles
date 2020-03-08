@@ -8,7 +8,7 @@ export default {
   exit(state) {
     state.isFunnelling = false
   },
-  update(state, { value }) {
+  update(state, value) {
     state.steps[state.progression].value = value
 
     if (state.progression + 1 < state.steps.length) {
@@ -16,5 +16,8 @@ export default {
     } else {
       state.isFinished = true
     }
+  },
+  view(state, value) {
+    state.steps[state.progression].value = value
   },
 }
