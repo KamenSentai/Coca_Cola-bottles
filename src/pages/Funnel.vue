@@ -39,24 +39,21 @@
         </ComponentLink>
       </div>
     </div>
-    <aside :class="$style.aside">
-      <img
-        :src="option.image"
-        :alt="option.name"
-      >
-    </aside>
+    <ModuleSketch :image="{ src: option.image, alt: option.name }" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ModuleSelection from '@/modules/Selection'
+import ModuleSketch from '@/modules/Sketch'
 import { Link as ComponentLink } from '@/components/Link'
 
 export default {
   name: 'Funnel',
   components: {
     ModuleSelection,
+    ModuleSketch,
     ComponentLink,
   },
   computed: mapGetters('funnel', ['isFinished', 'option', 'progression', 'step', 'total']),
@@ -121,10 +118,5 @@ export default {
   font-weight: bold;
   font-size: 2.5rem;
   line-height: 1.25;
-}
-
-.aside {
-  justify-self: flex-end;
-  font-size: 0;
 }
 </style>
