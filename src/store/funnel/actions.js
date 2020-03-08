@@ -5,4 +5,8 @@ export default {
   exit({ commit }) {
     commit('exit')
   },
+  update({ state, commit }, value) {
+    const { progression } = state
+    commit('update', { progression, value })
+  },
 }

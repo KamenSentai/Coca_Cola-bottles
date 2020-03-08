@@ -12,6 +12,7 @@
           }
         ]"
         :style="style(value)"
+        @click="update(value)"
       >
         {{ value }}
         <div :class="$style.icon">
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { Icon as ComponentIcon } from '@/components/Icon'
 
 export default {
@@ -38,12 +40,8 @@ export default {
   components: {
     ComponentIcon,
   },
-  data() {
-    return {
-      gap: 5,
-    }
-  },
   computed: {
+    ...mapGetters('funnel', ['gap']),
     isMiddle() {
       return value => value === this.middle
     },
@@ -60,6 +58,7 @@ export default {
       }
     },
   },
+  methods: mapActions('funnel', ['update']),
 }
 </script>
 

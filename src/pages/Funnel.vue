@@ -2,10 +2,10 @@
   <div :class="$style.container">
     <main :class="$style.wrapper">
       <div :class="$style.tag">
-        <span :class="$style.counter">1</span> / 6
+        <span :class="$style.counter">{{ progression + 1 }}</span> / {{ total }}
       </div>
       <p :class="$style.text">
-        Do you manage to stay calm in the face of pressure ?
+        {{ step.text }}
       </p>
       <ModuleSelection />
     </main>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ModuleSelection from '@/modules/Selection'
 
 export default {
@@ -21,6 +21,7 @@ export default {
   components: {
     ModuleSelection,
   },
+  computed: mapGetters('funnel', ['progression', 'step', 'total']),
   beforeRouteEnter(to, from, next) {
     next((vm) => {
       next(
