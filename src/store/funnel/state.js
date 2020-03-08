@@ -1,5 +1,6 @@
 import bottle from '@/assets/bottle.png'
 import can from '@/assets/can.png'
+import canSketch from '@/assets/can_sketch.png'
 
 export default {
   isFinished: false,
@@ -7,8 +8,18 @@ export default {
   gap: 5,
   option: null,
   options: [
-    { name: 'Bottle', slug: 'bottle', image: bottle },
-    { name: 'Can', slug: 'can', image: can },
+    {
+      name: 'Bottle',
+      slug: 'bottle',
+      image: bottle,
+      sketch: null,
+    },
+    {
+      name: 'Can',
+      slug: 'can',
+      image: can,
+      sketch: canSketch,
+    },
   ],
   progression: 0,
   steps: [

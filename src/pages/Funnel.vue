@@ -39,7 +39,10 @@
         </ComponentLink>
       </div>
     </div>
-    <ModuleSketch :image="{ src: option.image, alt: option.name }" />
+    <ModuleSketch
+      v-if="option.sketch"
+      :image="{ src: option.sketch, alt: option.name }"
+    />
   </div>
 </template>
 

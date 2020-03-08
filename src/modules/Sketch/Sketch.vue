@@ -1,6 +1,7 @@
 <template>
   <div :class="$style.container">
     <img
+      :class="$style.image"
       :src="image.src"
       :alt="image.alt"
     >
@@ -24,6 +25,7 @@ export default {
   },
   data() {
     return {
+      canvas: null,
       size: {
         width: 0,
         height: 0,
@@ -33,14 +35,20 @@ export default {
   mounted() {
     // eslint-disable-next-line no-new
     new P5((sketch) => {
+      sketch.preload = () => {
+        this.canvas = sketch.loadImage(this.image.src)
+      }
+
       sketch.setup = () => {
         this.updateSize()
         sketch.createCanvas(this.size.width, this.size.height)
+        sketch.image(this.canvas, 0, 0, this.size.width, this.size.height)
       }
 
       sketch.windowResized = () => {
         this.updateSize()
         sketch.resizeCanvas(this.size.width, this.size.height)
+        sketch.image(this.canvas, 0, 0, this.size.width, this.size.height)
       }
     }, this.$refs.wrapper)
   },
@@ -58,6 +66,11 @@ export default {
   position: relative;
   justify-self: flex-end;
   font-size: 0;
+}
+
+.image {
+  max-height: 75vh;
+  opacity: 0;
 }
 
 .wrapper {
