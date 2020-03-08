@@ -17,6 +17,7 @@
 
 <script>
 import P5 from 'p5'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Sketch',
@@ -33,16 +34,25 @@ export default {
         width: 0,
         height: 0,
       },
+      sketch: null,
     }
   },
   computed: {
+    ...mapGetters('funnel', ['values']),
     style() {
       return { clipPath: `polygon(${this.image.clip.join(', ')})` }
+    },
+  },
+  watch: {
+    values() {
+
     },
   },
   mounted() {
     // eslint-disable-next-line no-new
     new P5((sketch) => {
+      this.sketch = sketch
+
       sketch.preload = () => {
         this.canvas = sketch.loadImage(this.image.src)
       }

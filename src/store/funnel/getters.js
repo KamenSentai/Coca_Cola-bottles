@@ -8,4 +8,5 @@ export default {
   step: state => state.steps[state.progression],
   steps: state => state.steps,
   total: state => state.steps.length,
+  values: state => state.steps.map(step => step.value),
 }
