@@ -1,5 +1,8 @@
 <template>
-  <div :class="$style.container">
+  <div
+    :class="$style.container"
+    :style="style"
+  >
     <img
       :class="$style.image"
       :src="image.src"
@@ -31,6 +34,11 @@ export default {
         height: 0,
       },
     }
+  },
+  computed: {
+    style() {
+      return { clipPath: `polygon(${this.image.clip.join(', ')})` }
+    },
   },
   mounted() {
     // eslint-disable-next-line no-new
@@ -71,9 +79,11 @@ export default {
 .image {
   max-height: 75vh;
   opacity: 0;
+  pointer-events: none;
 }
 
 .wrapper {
+  pointer-events: none;
   @include centralizer;
   @include overlay;
 }
