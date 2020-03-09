@@ -150,10 +150,10 @@ export default {
     }, this.$refs.wrapper)
   },
   methods: {
-    getParams(ellipses) {
+    getParams(ellipses, size = null) {
       const { ellipseSize, gap, sketch } = this
 
-      let size = sketch.random(ellipseSize.random) + ellipseSize.min
+      if (!size) size = sketch.random(ellipseSize.random) + ellipseSize.min
       let x = sketch.random(sketch.width)
       let y = sketch.random(sketch.height)
 
@@ -163,7 +163,7 @@ export default {
         const security = (ellipse.size + size) / 2 + gap
 
         if (distance < security) {
-          const { size: newSize, x: newX, y: newY } = this.getParams(ellipses)
+          const { size: newSize, x: newX, y: newY } = this.getParams(ellipses, size)
           size = newSize
           x = newX
           y = newY
