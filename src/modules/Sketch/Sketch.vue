@@ -36,13 +36,13 @@ export default {
         positive: '#95AE8940',
       },
       ellipseSize: {
-        min: 12.5,
-        random: 25,
+        min: 6.25,
+        random: 43.75,
       },
       gap: 10,
       graphic: null,
       image: null,
-      limit: 5,
+      limit: 4,
       mask: null,
       seed: 5000,
       windowSize: {
@@ -56,8 +56,8 @@ export default {
     ...mapGetters('funnel', ['progression', 'values']),
     ellipses() {
       return set => set
-        .map(element => element && element.ellipses)
         .filter(element => !!element)
+        .map(element => element.ellipses)
         .flat()
     },
   },
@@ -94,7 +94,7 @@ export default {
           const ellipse = graphic.ellipse(x, y, size, size).get()
           ellipse.mask(mask)
           value.ellipses.push({
-            element: ellipse, size, x, y,
+            ellipse, size, x, y,
           })
         }
 
@@ -109,7 +109,7 @@ export default {
             const ellipse = graphic.ellipse(x, y, size, size).get()
             ellipse.mask(mask)
             value.ellipses.push({
-              element: ellipse, size, x, y,
+              ellipse, size, x, y,
             })
           }
         }
@@ -117,8 +117,8 @@ export default {
         this.$emit('build', value.ellipses)
       }
 
-      this.ellipses(set).forEach(({ element }) => {
-        sketch.image(element, 0, 0)
+      this.ellipses(set).forEach(({ ellipse }) => {
+        sketch.image(ellipse, 0, 0)
       })
     },
   },
