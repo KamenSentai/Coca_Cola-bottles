@@ -3,6 +3,7 @@
     :is="tag"
     v-bind="$attrs"
     :class="$style.container"
+    @click="$emit('click')"
   >
     <slot />
   </component>

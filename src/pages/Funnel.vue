@@ -28,6 +28,7 @@
         <ComponentLink
           tag="span"
           class="bg-red"
+          @click="buy"
         >
           Buy $2.90
         </ComponentLink>
@@ -41,6 +42,7 @@
     </div>
     <ModuleSketch
       v-if="option.image"
+      ref="sketch"
       :alt="option.name"
       :src="option.image"
       :shape="option.mask"
@@ -89,7 +91,12 @@ export default {
   mounted() {
     this.enter()
   },
-  methods: mapActions('funnel', ['choose', 'enter', 'exit']),
+  methods: {
+    ...mapActions('funnel', ['choose', 'enter', 'exit']),
+    buy() {
+      this.$refs.sketch.sketch.saveCanvas('Coca Coca', 'png')
+    },
+  },
 }
 </script>
 
