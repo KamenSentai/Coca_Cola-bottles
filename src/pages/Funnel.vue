@@ -43,6 +43,7 @@
       v-if="option.image"
       :alt="option.name"
       :src="option.image"
+      :shape="option.mask"
       @build="ellipses = $event"
     />
   </div>

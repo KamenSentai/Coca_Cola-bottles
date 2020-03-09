@@ -27,6 +27,10 @@ export default {
       type: String,
       required: true,
     },
+    shape: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -129,6 +133,7 @@ export default {
 
       sketch.preload = () => {
         this.image = sketch.loadImage(this.src)
+        this.mask = sketch.loadImage(this.shape)
       }
 
       sketch.setup = () => {
@@ -136,7 +141,7 @@ export default {
         sketch.createCanvas(this.windowSize.width, this.windowSize.height)
         sketch.image(this.image, 0, 0, sketch.width, sketch.height)
         this.graphic = sketch.createGraphics(sketch.width, sketch.height)
-        this.mask = this.image.get()
+        this.mask = this.mask.get()
         this.seed = sketch.random(this.seed)
       }
 
