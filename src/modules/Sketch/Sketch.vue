@@ -70,31 +70,23 @@ export default {
       const {
         colors,
         graphic,
-        image,
         limit,
         mask,
         progression,
-        sketch,
       } = this
-
-      sketch.clear()
-      graphic.clear()
-      sketch.image(image, 0, 0, sketch.width, sketch.height)
-
       const value = set[progression]
+      this.reset()
 
       if (value) {
         let color = colors.neutral
         if (value.isNegative) color = colors.negative
         if (value.isPositive) color = colors.positive
-
         graphic.fill(color)
         graphic.noStroke()
         value.ellipses = []
 
         for (let index = 0; index < limit; index++) {
           const { size, x, y } = this.getParams(this.ellipses(set))
-
           const ellipse = graphic.ellipse(x, y, size, size).get()
           ellipse.mask(mask)
           value.ellipses.push({
@@ -109,7 +101,6 @@ export default {
 
           for (let index = 0; index < limit / 2; index++) {
             const { size, x, y } = this.getParams(this.ellipses(set))
-
             const ellipse = graphic.ellipse(x, y, size, size).get()
             ellipse.mask(mask)
             value.ellipses.push({
@@ -120,10 +111,6 @@ export default {
 
         this.$emit('build', value.ellipses)
       }
-
-      this.ellipses(set).forEach(({ ellipse }) => {
-        sketch.image(ellipse, 0, 0)
-      })
     },
   },
   mounted() {
@@ -152,8 +139,13 @@ export default {
       }
 
       sketch.draw = () => {
+        const ellipses = this.ellipses(this.values)
         sketch.randomSeed(this.seed)
-        this.graphic.noStroke()
+        this.reset()
+
+        ellipses.forEach(({ ellipse }) => {
+          sketch.image(ellipse, 0, 0)
+        })
       }
     }, this.$refs.wrapper)
   },
@@ -180,6 +172,14 @@ export default {
       }
 
       return { size, x, y }
+    },
+    reset() {
+      const { graphic, sketch } = this
+
+      sketch.clear()
+      graphic.clear()
+      graphic.noStroke()
+      sketch.image(this.image, 0, 0, sketch.width, sketch.height)
     },
     updateSize() {
       const { clientWidth: width, clientHeight: height } = this.$refs.wrapper
