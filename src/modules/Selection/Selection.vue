@@ -12,9 +12,9 @@
           }
         ]"
         :style="style(index + 1)"
-        @mouseenter="view(select)"
+        @mouseenter="view({ ...select, ellipses })"
         @mouseleave="view()"
-        @click="update(select)"
+        @click="update({ ...select, ellipses })"
       >
         {{ index + 1 }}
         <div :class="$style.icon">
@@ -41,6 +41,12 @@ export default {
   name: 'Selection',
   components: {
     ComponentIcon,
+  },
+  props: {
+    ellipses: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     ...mapGetters('funnel', ['selects']),

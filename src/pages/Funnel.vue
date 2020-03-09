@@ -18,7 +18,7 @@
       <p :class="$style.text">
         {{ step.text }}
       </p>
-      <ModuleSelection />
+      <ModuleSelection :ellipses="ellipses" />
     </main>
     <div
       v-else
@@ -43,6 +43,7 @@
       v-if="option.image"
       :alt="option.name"
       :src="option.image"
+      @build="ellipses = $event"
     />
   </div>
 </template>
@@ -59,6 +60,11 @@ export default {
     ModuleSelection,
     ModuleSketch,
     ComponentLink,
+  },
+  data() {
+    return {
+      ellipses: [],
+    }
   },
   computed: mapGetters('funnel', ['isFinished', 'option', 'progression', 'step', 'total']),
   beforeRouteEnter(to, from, next) {

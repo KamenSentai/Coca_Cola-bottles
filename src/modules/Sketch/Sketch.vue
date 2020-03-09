@@ -30,18 +30,96 @@ export default {
   },
   data() {
     return {
+      colors: {
+        negative: '#E71A2740',
+        neutral: '#FFFFFF40',
+        positive: '#95AE8940',
+      },
+      ellipseSize: {
+        min: 12.5,
+        random: 25,
+      },
+      gap: 10,
+      graphic: null,
       image: null,
-      size: {
+      limit: 5,
+      mask: null,
+      seed: 5000,
+      windowSize: {
         width: 0,
         height: 0,
       },
       sketch: null,
     }
   },
-  computed: mapGetters('funnel', ['values']),
+  computed: {
+    ...mapGetters('funnel', ['progression', 'values']),
+    ellipses() {
+      return set => set
+        .map(element => element && element.ellipses)
+        .filter(element => !!element)
+        .flat()
+    },
+  },
   watch: {
-    values() {
+    values(set) {
+      const {
+        colors,
+        graphic,
+        image,
+        limit,
+        mask,
+        progression,
+        sketch,
+      } = this
 
+      sketch.clear()
+      graphic.clear()
+      sketch.image(image, 0, 0, sketch.width, sketch.height)
+
+      const value = set[progression]
+
+      if (value) {
+        let color = colors.neutral
+        if (value.isNegative) color = colors.negative
+        if (value.isPositive) color = colors.positive
+
+        graphic.fill(color)
+        graphic.noStroke()
+        value.ellipses = []
+
+        for (let index = 0; index < limit; index++) {
+          const { size, x, y } = this.getParams(this.ellipses(set))
+
+          const ellipse = graphic.ellipse(x, y, size, size).get()
+          ellipse.mask(mask)
+          value.ellipses.push({
+            element: ellipse, size, x, y,
+          })
+        }
+
+        if (value.isIntense) {
+          graphic.noFill()
+          graphic.stroke(colors.neutral)
+          graphic.strokeWeight(2)
+
+          for (let index = 0; index < limit / 2; index++) {
+            const { size, x, y } = this.getParams(this.ellipses(set))
+
+            const ellipse = graphic.ellipse(x, y, size, size).get()
+            ellipse.mask(mask)
+            value.ellipses.push({
+              element: ellipse, size, x, y,
+            })
+          }
+        }
+
+        this.$emit('build', value.ellipses)
+      }
+
+      this.ellipses(set).forEach(({ element }) => {
+        sketch.image(element, 0, 0)
+      })
     },
   },
   mounted() {
@@ -55,21 +133,52 @@ export default {
 
       sketch.setup = () => {
         this.updateSize()
-        sketch.createCanvas(this.size.width, this.size.height)
-        sketch.image(this.image, 0, 0, this.size.width, this.size.height)
+        sketch.createCanvas(this.windowSize.width, this.windowSize.height)
+        sketch.image(this.image, 0, 0, sketch.width, sketch.height)
+        this.graphic = sketch.createGraphics(sketch.width, sketch.height)
+        this.mask = this.image.get()
+        this.seed = sketch.random(this.seed)
       }
 
       sketch.windowResized = () => {
         this.updateSize()
-        sketch.resizeCanvas(this.size.width, this.size.height)
-        sketch.image(this.image, 0, 0, this.size.width, this.size.height)
+        sketch.resizeCanvas(this.windowSize.width, this.windowSize.height)
+        sketch.image(this.image, 0, 0, sketch.width, sketch.height)
+      }
+
+      sketch.draw = () => {
+        sketch.randomSeed(this.seed)
+        this.graphic.noStroke()
       }
     }, this.$refs.wrapper)
   },
   methods: {
+    getParams(ellipses) {
+      const { ellipseSize, gap, sketch } = this
+
+      let size = sketch.random(ellipseSize.random) + ellipseSize.min
+      let x = sketch.random(sketch.width)
+      let y = sketch.random(sketch.height)
+
+      for (let i = 0; i < ellipses.length; i++) {
+        const ellipse = ellipses[i]
+        const distance = Math.sqrt(((ellipse.x - x) ** 2) + ((ellipse.y - y) ** 2))
+        const security = (ellipse.size + size) / 2 + gap
+
+        if (distance < security) {
+          const { size: newSize, x: newX, y: newY } = this.getParams(ellipses)
+          size = newSize
+          x = newX
+          y = newY
+          break
+        }
+      }
+
+      return { size, x, y }
+    },
     updateSize() {
       const { clientWidth: width, clientHeight: height } = this.$refs.wrapper
-      this.size = { width, height }
+      this.windowSize = { width, height }
     },
   },
 }
