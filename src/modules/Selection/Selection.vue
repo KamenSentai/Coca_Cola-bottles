@@ -12,9 +12,10 @@
           }
         ]"
         :style="style(index + 1)"
+        @click="update({ ...select, ellipses })"
+        @mouseup="view({ ...select, ellipses })"
         @mouseenter="view({ ...select, ellipses })"
         @mouseleave="view()"
-        @click="update({ ...select, ellipses })"
       >
         {{ index + 1 }}
         <div :class="$style.icon">
