@@ -1,4 +1,4 @@
-import bottleShape from '@/assets/bottle_shape.png'
+// import bottleShape from '@/assets/bottle_shape.png'
 import canImage from '@/assets/can_image.png'
 import canMask from '@/assets/can_mask.png'
 import canShape from '@/assets/can_shape.png'
@@ -8,13 +8,13 @@ export default {
   isFunnelling: false,
   option: null,
   options: [
-    {
-      name: 'Bottle',
-      slug: 'bottle',
-      image: null,
-      mask: null,
-      shape: bottleShape,
-    },
+    // {
+    //   name: 'Bottle',
+    //   slug: 'bottle',
+    //   image: null,
+    //   mask: null,
+    //   shape: bottleShape,
+    // },
     {
       name: 'Can',
       slug: 'can',

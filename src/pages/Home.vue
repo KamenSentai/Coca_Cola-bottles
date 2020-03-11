@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" module>
 .container {
-  grid-row-gap: 6rem;
+  grid-row-gap: 4rem;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -63,7 +63,7 @@ export default {
   grid-auto-flow: column;
   grid-column-gap: 2rem;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .option {
@@ -74,7 +74,7 @@ export default {
 
 .image {
   justify-self: center;
-  width: 50%;
+  width: 75%;
   height: auto;
 }
 </style>
