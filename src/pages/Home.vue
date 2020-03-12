@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <h1 :class="$style.title">
-      Hey there,<br>choose the container you want
+      Hey there,<br>ready to start ?
     </h1>
     <main :class="$style.wrapper">
       <div
@@ -18,7 +18,7 @@
           :to="{ name: 'funnel', params: { slug: option.slug } }"
           class="bg-red"
         >
-          {{ option.name }}
+          Start
         </ComponentLink>
       </div>
     </main>
