@@ -34,19 +34,19 @@ export default {
   },
   data() {
     return {
-      colors: {
-        negative: '#E71A2740',
-        neutral: '#FFFFFF40',
-        positive: '#95AE8940',
-      },
+      colors: [
+        '#FFFFFF40',
+        '#E71A2740',
+        '#95AE8940',
+      ],
       ellipseSize: {
-        min: 6.25,
-        random: 43.75,
+        min: 10,
+        random: 40,
       },
-      gap: 10,
+      gap: 5,
       graphic: null,
       image: null,
-      limit: 4,
+      limit: 3,
       mask: null,
       seed: 5000,
       windowSize: {
@@ -72,21 +72,19 @@ export default {
         graphic,
         limit,
         mask,
+        sketch,
         progression,
       } = this
       const value = set[progression]
       this.reset()
 
       if (value) {
-        let color = colors.neutral
-        if (value.isNegative) color = colors.negative
-        if (value.isPositive) color = colors.positive
-        graphic.fill(color)
-        graphic.noStroke()
         value.ellipses = []
+        graphic.noStroke()
 
         for (let index = 0; index < limit; index++) {
-          const { size, x, y } = this.getParams(this.ellipses(set))
+          graphic.fill(sketch.random(colors))
+          const { size, x, y } = this.getParams(this.ellipses(set), value.area)
           const ellipse = graphic.ellipse(x, y, size, size).get()
           ellipse.mask(mask)
           value.ellipses.push({
@@ -94,19 +92,17 @@ export default {
           })
         }
 
-        if (value.isIntense) {
-          graphic.noFill()
-          graphic.stroke(colors.neutral)
-          graphic.strokeWeight(2)
+        graphic.noFill()
+        graphic.stroke(colors[0])
+        graphic.strokeWeight(2)
 
-          for (let index = 0; index < limit / 2; index++) {
-            const { size, x, y } = this.getParams(this.ellipses(set))
-            const ellipse = graphic.ellipse(x, y, size, size).get()
-            ellipse.mask(mask)
-            value.ellipses.push({
-              ellipse, size, x, y,
-            })
-          }
+        for (let index = 0; index < limit / 2; index++) {
+          const { size, x, y } = this.getParams(this.ellipses(set))
+          const ellipse = graphic.ellipse(x, y, size, size).get()
+          ellipse.mask(mask)
+          value.ellipses.push({
+            ellipse, size, x, y,
+          })
         }
 
         this.$emit('build', value.ellipses)
@@ -150,25 +146,34 @@ export default {
     }, this.$refs.wrapper)
   },
   methods: {
-    getParams(ellipses, size = null) {
+    getParams(ellipses, area = {}, size = null) {
       const { ellipseSize, gap, sketch } = this
+      const { width, height } = sketch
+      const {
+        m,
+        p,
+        dx: [minX, maxX] = [0, 1],
+        dy: [minY, maxY] = [0, 1],
+      } = area
 
       if (!size) size = sketch.random(ellipseSize.random) + ellipseSize.min
-      let x = sketch.random(sketch.width)
-      let y = sketch.random(sketch.height)
+      const x = sketch.random(width * (maxX - minX)) + minX * width
+      let y
+
+      if (m === undefined || p === undefined) {
+        y = sketch.random(height * (maxY - minY)) + minY * height
+      } else {
+        const ly = x * m + p * height
+        if (maxY === 'x') y = sketch.random(minY * height, ly)
+        if (minY === 'x') y = sketch.random(ly, maxY * height)
+      }
 
       for (let i = 0; i < ellipses.length; i++) {
         const ellipse = ellipses[i]
         const distance = Math.sqrt(((ellipse.x - x) ** 2) + ((ellipse.y - y) ** 2))
         const security = (ellipse.size + size) / 2 + gap
 
-        if (distance < security) {
-          const { size: newSize, x: newX, y: newY } = this.getParams(ellipses, size)
-          size = newSize
-          x = newX
-          y = newY
-          break
-        }
+        if (distance < security) return this.getParams(ellipses, area, size)
       }
 
       return { size, x, y }

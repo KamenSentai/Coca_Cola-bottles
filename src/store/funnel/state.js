@@ -25,11 +25,21 @@ export default {
   ],
   progression: 0,
   selects: [
-    { isNegative: true },
-    { isNegative: true, isIntense: true },
-    { isIntense: true },
-    { isPositive: true, isIntense: true },
-    { isPositive: true },
+    {
+      isNegative: true,
+      area: {
+        m: 1, p: 0.5, dx: [0, 0.625], dy: ['x', 1],
+      },
+    },
+    {
+      isNegative: true,
+      area: {
+        m: -1, p: 0.5, dx: [0, 0.625], dy: [0, 'x'],
+      },
+    },
+    { area: { dx: [0, 1], dy: [0.375, 0.625] } },
+    { isPositive: true, area: { dx: [0, 1], dy: [0, 1] } },
+    { isPositive: true, area: { dx: [0.125, 0.875], dy: [0, 0.375] } },
   ],
   steps: [
     {
