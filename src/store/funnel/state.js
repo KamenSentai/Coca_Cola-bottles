@@ -6,6 +6,28 @@ import canShape from '@/assets/can_shape.png'
 export default {
   isFinished: false,
   isFunnelling: false,
+  messages: [
+    {
+      limit: 12,
+      text: 'I am mysterious',
+    },
+    {
+      limit: 14,
+      text: 'I am dreamer',
+    },
+    {
+      limit: 17,
+      text: 'I am independant',
+    },
+    {
+      limit: 22,
+      text: 'I am creative',
+    },
+    {
+      limit: 30,
+      text: 'I am courageous',
+    },
+  ],
   option: null,
   options: [
     // {

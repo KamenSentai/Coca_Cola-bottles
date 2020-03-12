@@ -44,6 +44,7 @@
       v-if="option.image"
       ref="sketch"
       :alt="option.name"
+      :is-finished="isFinished"
       :src="option.image"
       :shape="option.mask"
       @build="ellipses = $event"

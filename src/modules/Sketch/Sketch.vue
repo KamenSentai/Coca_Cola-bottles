@@ -23,6 +23,10 @@ export default {
       type: String,
       required: true,
     },
+    isFinished: {
+      type: Boolean,
+      default: false,
+    },
     src: {
       type: String,
       required: true,
@@ -35,15 +39,16 @@ export default {
   data() {
     return {
       colors: [
-        '#FFFFFF40',
-        '#E71A2740',
-        '#95AE8940',
+        '#FFFFFF',
+        '#E71A27',
+        '#95AE89',
       ],
       ellipseSize: {
         min: 10,
         random: 40,
       },
       gap: 5,
+      font: null,
       graphic: null,
       image: null,
       limit: 3,
@@ -57,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('funnel', ['progression', 'values']),
+    ...mapGetters('funnel', ['message', 'points', 'progression', 'values']),
     ellipses() {
       return set => set
         .filter(element => !!element)
@@ -83,7 +88,7 @@ export default {
         graphic.noStroke()
 
         for (let index = 0; index < limit; index++) {
-          graphic.fill(sketch.random(colors))
+          graphic.fill(`${sketch.random(colors)}40`)
           const { size, x, y } = this.getParams(this.ellipses(set), value.area)
           const ellipse = graphic.ellipse(x, y, size, size).get()
           ellipse.mask(mask)
@@ -93,7 +98,7 @@ export default {
         }
 
         graphic.noFill()
-        graphic.stroke(colors[0])
+        graphic.stroke(`${colors[0]}40`)
         graphic.strokeWeight(2)
 
         for (let index = 0; index < limit / 2; index++) {
@@ -115,6 +120,7 @@ export default {
       this.sketch = sketch
 
       sketch.preload = () => {
+        this.font = sketch.loadFont('fonts/MonumentExtended-Ultrabold.woff')
         this.image = sketch.loadImage(this.src)
         this.mask = sketch.loadImage(this.shape)
       }
@@ -123,6 +129,9 @@ export default {
         this.updateSize()
         sketch.createCanvas(this.windowSize.width, this.windowSize.height)
         sketch.image(this.image, 0, 0, sketch.width, sketch.height)
+        sketch.textFont(this.font)
+        sketch.textSize(36)
+        sketch.fill(this.colors[0])
         this.graphic = sketch.createGraphics(sketch.width, sketch.height)
         this.mask = this.mask.get()
         this.seed = sketch.random(this.seed)
@@ -142,6 +151,14 @@ export default {
         ellipses.forEach(({ ellipse }) => {
           sketch.image(ellipse, 0, 0)
         })
+
+        if (this.isFinished) {
+          sketch.push()
+          sketch.translate(sketch.width, sketch.height)
+          sketch.rotate(-sketch.PI / 2)
+          sketch.text(this.message.toUpperCase(), 50, -50)
+          sketch.pop()
+        }
       }
     }, this.$refs.wrapper)
   },

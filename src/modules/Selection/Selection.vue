@@ -12,7 +12,7 @@
           }
         ]"
         :style="style(index + 1)"
-        @click="update({ ...select, ellipses })"
+        @click="update({ ...select, ellipses, points: index + 1 })"
         @mouseup="view({ ...select, ellipses })"
         @mouseenter="view({ ...select, ellipses })"
         @mouseleave="view()"
