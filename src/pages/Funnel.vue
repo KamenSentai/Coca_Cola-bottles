@@ -26,15 +26,19 @@
     >
       <div :class="$style.wrapper">
         <ComponentLink
-          tag="span"
+          tag="a"
           class="bg-red"
+          target="_blank"
+          href="https://www.coca-cola.com/"
           @click="buy"
         >
           Buy $2.90
         </ComponentLink>
         <ComponentLink
-          tag="span"
+          tag="a"
           class="bg-dark"
+          href="https://www.facebook.com/cocacola/"
+          target="_blank"
         >
           Share
         </ComponentLink>
